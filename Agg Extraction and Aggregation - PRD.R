@@ -12,12 +12,16 @@ library(data.table)
                    UID = Sys.getenv("PRD_USERNAME"),
                    PWD      = Sys.getenv("PRD_PASSWORD"),
                    Port = 3306)
-  
+
+  print("Connection Successful")
   
   query <- dbSendQuery(con, "SELECT `Policy Reference`, `Class of Business`, `Inception Date`, 
                        `Expiry Date`, `County`, `State`, `Limit Type`, `Group Rated Layer`, `Location Total Insured Value`,
                       `Group Total Insured Value`
                        FROM tableau WHERE `Policy Reference` IS NOT NULL " )
+  
+  print("Query Successful")
+  print("Aggregating Data")
   
   data <- as.data.table(dbFetch(query))
   data[, `Inception Date` := as.Date(`Inception Date`, format = '%d/%m/%y')]
@@ -62,5 +66,11 @@ library(data.table)
 
 #write agg_total to .csv to be picked up by Tableau
   
+  print("Writing .csv")
+  
   path <- paste0(Sys.getenv("DATA_DIR"),"In_Force_Agg_by_month.csv")
   write.csv(agg_total,path)
+
+  print(".csv created")
+  Sys.sleep(5)
+  
