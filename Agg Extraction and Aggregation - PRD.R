@@ -1,7 +1,7 @@
 library(odbc)
+library(DBI)
 library(RMySQL)
 library(data.table)
-
 
 ## ---- Connect to PRD and pull bound policies ----
 
@@ -13,8 +13,6 @@ library(data.table)
                    PWD      = Sys.getenv("PRD_PASSWORD"),
                    Port = 3306)
 
-  print("Connection Successful")
-  
   query <- dbSendQuery(con, "SELECT `Policy Reference`, `Class of Business`, `Inception Date`, 
                        `Expiry Date`, `County`, `State`, `Limit Type`, `Group Rated Layer`, `Location Total Insured Value`,
                       `Group Total Insured Value`
@@ -65,12 +63,6 @@ library(data.table)
     }
 
 #write agg_total to .csv to be picked up by Tableau
-  
-  print("Writing .csv")
-  
+
   path <- paste0(Sys.getenv("DATA_DIR"),"In_Force_Agg_by_month.csv")
   write.csv(agg_total,path)
-
-  print(".csv created")
-  Sys.sleep(5)
-  
