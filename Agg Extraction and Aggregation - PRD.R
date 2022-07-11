@@ -1,3 +1,13 @@
+# ---- Description of Script
+
+# AGG EXTRACTION AND AGGREGATION 
+
+# Script to pull full bound policy data set and calculate in-force agg on the first of every month since birth, up to the current month
+# aggregating to a county level and output flat file for Tableau connection. 
+
+
+# ---- Library Loads
+
 library(odbc)
 library(DBI)
 library(RMySQL)
